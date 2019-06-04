@@ -1242,6 +1242,8 @@ def logout():
 def savePage():
     """save all pages function"""
     page_content = request.form['page_content']
+    page_content = page_content.replace('// &lt;![CDATA[', '')
+    page_content = page_content.replace('// ]]&gt;', '')
     # check if administrator
     if not isAdmin():
         return redirect("/login")
