@@ -448,12 +448,21 @@ COPY TO CLIPBOARD	</pre>
 <p>各頁面標題目前不支援特殊符號, 例如: "/", "?" 等, 若已經發生程式無法解讀頁面的情況, 只能從編輯 config/content.htm 下手, 若系統位於遠端, 則後續必須要再設法提供一個額外的編輯 config/content.htm 檔案的網際連結功能.</p>
 <h4>Video 引用不支援內部引用</h4>
 <p>tinymce 中插入 video 的小視窗, 要移除引用的圖像與連結, 因為一般建議不要在內容中存入 .mp4 的影片資料, 而只接受引入影片 URL 連結.</p>
+<h2>Brython 無法顯示</h2>
+<p>按F12尋找有沒有如圖的問題</p>
+<p><img alt="" height="482" src="/images/chrome_rg3IpZC7Gr.png" width="704"/></p>
+<p>開啟倉儲資料夾，打開flaskapp.py，案ctrl+f來找到<span>page_content = request.form['page_content']，有2個地方都在底下加入</span></p>
+<div class="line number1 index0 alt2"><code class="html plain">page_content = page_content.replace('//<span> </span></code><code class="html color2">&lt;![CDATA[', '')</code></div>
+<div class="line number2 index1 alt1"><code class="html color2">page_content = page_content.replace('// ]]&gt;</code><code class="html plain">', '')<br/></code></div>
 <h1>個人影片</h1>
 <h2>設定虛擬主機安裝Ubuntu</h2>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/1rnqJtKKLmk" width="560"></iframe></p>
 <h2>建立SSH key</h2>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/LXm5lsUL7vc" width="560"></iframe></p>
 <h5>使用SSH時，並不用輸入帳號及密碼，它會直接尋找可攜式裝置裡的rsa檔，並直接對應自己的github帳號，可以避免在別人的電腦進行倉儲改版會有洩漏帳號密碼的風險。</h5>
+<h2>期中影片</h2>
+<br/><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/1scHf3rw1pQ" width="560"></iframe><br/><br/>期末影片
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/1U3-6FvoErE" width="560"></iframe></p>
 <h1>ROC</h1>
 <p><!-- 導入 Brython 標準程式庫 -->
 <script src="/static/brython.js"></script>
