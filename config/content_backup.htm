@@ -450,10 +450,14 @@ COPY TO CLIPBOARD	</pre>
 <p>tinymce 中插入 video 的小視窗, 要移除引用的圖像與連結, 因為一般建議不要在內容中存入 .mp4 的影片資料, 而只接受引入影片 URL 連結.</p>
 <h2>Brython 無法顯示</h2>
 <p>按F12尋找有沒有如圖的問題</p>
-<p><img alt="" height="482" src="/images/chrome_rg3IpZC7Gr.png" width="704"/></p>
-<p>開啟倉儲資料夾，打開flaskapp.py，案ctrl+f來找到<span>page_content = request.form['page_content']，有2個地方都在底下加入</span></p>
+<p><img alt="" height="200" src="/images/chrome.png" width="683"/></p>
+<p>開啟倉儲資料夾，打開flaskapp.py，案ctrl+f來找到</p>
+<p><span>page_content = request.form['page_content']，有2個地方都在底下加入</span></p>
 <div class="line number1 index0 alt2"><code class="html plain">page_content = page_content.replace('//<span> </span></code><code class="html color2">&lt;![CDATA[', '')</code></div>
 <div class="line number2 index1 alt1"><code class="html color2">page_content = page_content.replace('// ]]&gt;</code><code class="html plain">', '')<br/></code></div>
+<div class="line number2 index1 alt1"><code class="html plain"></code></div>
+<p>就能夠解決無法Brython的問題</p>
+<p></p>
 <h1>個人影片</h1>
 <h2>設定虛擬主機安裝Ubuntu</h2>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/1rnqJtKKLmk" width="560"></iframe></p>
@@ -461,7 +465,8 @@ COPY TO CLIPBOARD	</pre>
 <p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/LXm5lsUL7vc" width="560"></iframe></p>
 <h5>使用SSH時，並不用輸入帳號及密碼，它會直接尋找可攜式裝置裡的rsa檔，並直接對應自己的github帳號，可以避免在別人的電腦進行倉儲改版會有洩漏帳號密碼的風險。</h5>
 <h2>期末影片</h2>
-<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/1U3-6FvoErE" width="560"></iframe></p><h1>ROC</h1>
+<p><iframe allowfullscreen="allowfullscreen" height="314" src="//www.youtube.com/embed/1U3-6FvoErE" width="560"></iframe></p>
+<h1>ROC</h1>
 <p><!-- 導入 Brython 標準程式庫 -->
 <script src="/static/brython.js"></script>
 <script src="/static/brython_stdlib.js"></script>
@@ -476,6 +481,75 @@ brython({debug:1, pythonpath:['./../data/py']});
 </script>
 </p>
 <p><canvas height="400" id="plotarea" width="600"></canvas></p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">導入 Brython 標準程式庫 --&gt;
+&lt;script src="/static/brython.js"&gt;&lt;/script&gt;
+&lt;script src="/static/brython_stdlib.js"&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;!-- 啟動 Brython --&gt;
+&lt;script&gt;// &lt;![CDATA[
+window.onload=function(){
+// 設定 data/py 為共用程式路徑
+brython({debug:1, pythonpath:['./../data/py']});
+}
+// ]]&gt;&lt;/script&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;canvas height="400" id="plotarea" width="600"&gt;&lt;/canvas&gt;&lt;/p&gt;
+&lt;p&gt;
+&lt;script type="text/python"&gt;// &lt;![CDATA[
+# 導入 doc
+from browser import document as doc
+import math
+
+# 準備繪圖畫布
+canvas = doc["plotarea"]
+ctx = canvas.getContext("2d")
+# 進行座標轉換, x 軸不變, y 軸反向且移動 canvas.height 單位光點
+# ctx.setTransform(1, 0, 0, -1, 0, canvas.height)
+# 以下採用 canvas 原始座標繪圖
+flag_w = canvas.width
+flag_h = canvas.height
+circle_x = flag_w/4
+circle_y = flag_h/4
+# 先畫滿地紅
+ctx.fillStyle='rgb(255, 0, 0)'
+ctx.fillRect(0,0,flag_w,flag_h)
+# 再畫青天
+ctx.fillStyle='rgb(0, 0, 150)'
+ctx.fillRect(0,0,flag_w/2,flag_h/2)
+# 畫十二道光芒白日
+ctx.beginPath()
+star_radius = flag_w/8
+angle = 0
+for i in range(24):
+    angle += 5*math.pi*2/12
+    toX = circle_x + math.cos(angle)*star_radius
+    toY = circle_y + math.sin(angle)*star_radius
+    # 只有 i 為 0 時移動到 toX, toY, 其餘都進行 lineTo
+    if (i):
+        ctx.lineTo(toX, toY)
+    else:
+        ctx.moveTo(toX, toY)
+ctx.closePath()
+# 將填色設為白色
+ctx.fillStyle = '#fff'
+ctx.fill()
+# 白日:藍圈
+ctx.beginPath()
+ctx.arc(circle_x, circle_y, flag_w*17/240, 0, math.pi*2, True)
+ctx.closePath()
+# 填色設為藍色
+ctx.fillStyle = 'rgb(0, 0, 149)'
+ctx.fill()
+# 白日:白心
+ctx.beginPath()
+ctx.arc(circle_x, circle_y, flag_w/16, 0, math.pi*2, True)
+ctx.closePath()
+# 填色設為白色
+ctx.fillStyle = '#fff'
+ctx.fill()
+// ]]&gt;&lt;/script&gt;</pre>
+<p></p>
 <p>
 <script type="text/python">
 # 導入 doc
@@ -549,7 +623,7 @@ brython({debug:1, pythonpath:['./../data/py']});
 # 導入 doc
 from browser import document as doc
 import math
-
+ 
 # 準備繪圖畫布
 canvas = doc["plotarea"]
 ctx = canvas.getContext("2d")
